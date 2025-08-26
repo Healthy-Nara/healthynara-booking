@@ -87,6 +87,7 @@ const CaregiverPower = ({ onSubmitBack, formData, updateFormData }) => {
                     <DatePicker
                       sx={{ width: "100%" }}
                       value={formData?.startDate || null}
+                      disablePast
                       onChange={(newValue) => {
                         updateFormData({ startDate: newValue });
                       }}
@@ -102,6 +103,7 @@ const CaregiverPower = ({ onSubmitBack, formData, updateFormData }) => {
                     <DatePicker
                       sx={{ width: "100%" }}
                       value={formData?.endDate || null}
+                      disablePast
                       onChange={(newValue) => {
                         if (newValue < formData.startDate) {
                           toast.error("Ending date must be greater than starting date.");

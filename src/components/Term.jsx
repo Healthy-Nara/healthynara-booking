@@ -57,8 +57,9 @@ const Term = () => {
               အနှောင့်အယှက်များ ဖြစ်ပေါ်လာနိုင်ပါသည်။
             </li>
             <li className="text-gray-600 text-[16px]">
-              အစိုးရရုံးပိတ်ရက်များတွင် ဝန်ဆောင်ခများအား နေ့စဉ်ပုံမှန်နှုန်းထားထက် ၁.၅ ဆ တိုး၍
-              ကောက်ခံသွားမည်ဖြစ်ပါသည်။
+              ငွေပေးချေမှုပြုလုပ်ရာတွင် Caregiver Service Fees ၏ <br /> Daily Package - 10% <br />{" "}
+              Weekly Package - 7% <br /> Monthly Package -5% <br /> နှုန်းထားများဖြင့် Platform Fees
+              ကို Service အသုံးပြုသူများထံမှ ကောက်ခံသွားမည်ဖြစ်ပါသည်။
             </li>
           </ul>
         </section>
