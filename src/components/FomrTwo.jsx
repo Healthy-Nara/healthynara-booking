@@ -1,109 +1,171 @@
 import React, { useState } from "react";
 import logo from "./../assets/image/Vector.png";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+
+const options = [
+  { label: "ယောက်ကျားလေး", value: "Male" },
+  { label: "မိန်းကလေး", value: "Female" },
+];
 
 const FormTwo = () => {
-  // A nested component to handle the material design input field logic
-  const MaterialInput = ({ id, label }) => {
-    const [value, setValue] = useState("");
-    const [isFocused, setIsFocused] = useState(false);
+  const { id } = useParams();
+  const [childName, setChildName] = useState("");
+  const [birthDate, setBirthDate] = useState("");
+  const [gender, setGender] = useState("");
+  const [hasInfectiousDisease, setHasInfectiousDisease] = useState(false);
 
-    return (
-      <div className="relative mb-8">
-        <input
-          type="text"
-          id={id}
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
-          className="bg-primary text-white p-4 rounded-full w-full transition-all duration-300 border-2 border-white shadow-md outline-none placeholder-white/80"
-          placeholder=" "
-        />
-        <label
-          htmlFor={id}
-          className={`absolute left-6 top-4 text-white/80 pointer-events-none transition-all duration-300 ease-in-out bg-primary px-1 ${
-            isFocused || value ? "text-xs -top-[8px] left-6 px-1" : ""
-          }`}
-        >
-          {label}
-        </label>
-      </div>
-    );
-  };
-
-  const options = [
-    { label: "Option 1", value: "option1" },
-    { label: "Option 2", value: "option2" },
-    { label: "Option 3", value: "option3" },
-  ];
+  const [isFocused, setIsFocused] = useState({
+    childName: false,
+    birthDate: false,
+  });
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(options[0]);
+  const [selectedOption, setSelectedOption] = useState("");
 
   const handleOptionClick = (option) => {
     setSelectedOption(option);
+    setGender(option.value);
     setIsDropdownOpen(false);
   };
 
+  const addFormTwo = async () => {
+    const formData = {
+      childName,
+      birthDate,
+      gender,
+      hasInfectiousDisease,
+      parentInfo: id,
+    };
+    console.log(formData);
+    const res = await axios.post(`${import.meta.env.VITE_API_URL}api/v1/child`, formData);
+    console.log(res);
+    if (res.data.code === 201) {
+      navigate("/success");
+    }
+  };
+
   return (
-    <div className="p-4 max-w-2xl h-screen mx-auto bg-[#019177]">
-      <div className="flex items-center justify-between">
-        <img src={logo} alt="" className="rounded-2xl" />
+    <div>
+      <div className="p-4 h-screen mx-auto bg-[#019177]">
+        <div className="flex items-center justify-between">
+          <img src={logo} alt="" className="rounded-2xl" />
 
-        <h1 className="font-bold text-white text-[20px]">ကလေးငယ်၏ အချက်အလက်များ</h1>
-      </div>
-
-      <div className="mt-[50px]">
-        <MaterialInput id="name" label="Name" />
-        <MaterialInput id="email" label="Email" />
-      </div>
-
-      <div className="relative mt-[40px]">
-        {/* Dropdown trigger button */}
-        <div
-          className="bg-primary text-white p-4 rounded-full w-full transition-all duration-300 border-2 border-white shadow-md focus:bg-emerald-800 focus:border-emerald-700 focus:shadow-lg outline-none cursor-pointer flex justify-between items-center"
-          onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-        >
-          <span>{selectedOption.label}</span>
-          <span className="text-white/80">▼</span>
+          <h1 className="font-bold text-white text-[20px]">ကလေးငယ်၏ အချက်အလက်များ</h1>
         </div>
 
-        {/* Dropdown options list */}
-        {isDropdownOpen && (
-          <div className="absolute z-10 w-full mt-2 bg-primary rounded-lg shadow-lg overflow-hidden border border-emerald-800">
-            {options.map((option) => (
-              <div
-                key={option.value}
-                className="p-4 cursor-pointer hover:bg-emerald-600 transition-colors duration-200 text-white"
-                onClick={() => handleOptionClick(option)}
-              >
-                {option.label}
-              </div>
-            ))}
+        <div className="mt-[50px]">
+          <div className="relative mb-8">
+            <input
+              type="text"
+              id="childName"
+              value={childName}
+              onChange={(e) => setChildName(e.target.value)}
+              onFocus={() => setIsFocused({ ...isFocused, childName: true })}
+              onBlur={() => setIsFocused({ ...isFocused, childName: false })}
+              className="bg-primary text-white p-4 rounded-full w-full transition-all duration-300 border-2 border-white shadow-md outline-none placeholder-white/80"
+              placeholder=" "
+            />
+            <label
+              htmlFor="childName"
+              className={`absolute left-6 top-4 text-white/80 pointer-events-none transition-all duration-300 ease-in-out bg-primary px-1 ${
+                isFocused.childName || childName ? "text-xs -top-[9px] left-6 px-1" : ""
+              }`}
+            >
+              ကလေးအမည်
+            </label>
           </div>
-        )}
-      </div>
 
-      {/* Dropdown Section */}
-      <div className="p-6 mt-[40px]  rounded-3xl bg-primary border-2 border-white shadow-lg relative">
-        <h3 className="text-white text-lg font-semibold mb-4">Choose from the options below:</h3>
-
-        <p className="text-white text-sm leading-relaxed mt-4 flex items-start">
-          <span className="text-xl mr-2">i</span>
-          <span>
-            This is a message providing additional information or instructions for the user. It can
-            be a long message that wraps to the next line.
-          </span>
-        </p>
-
-        <div className="flex gap-5 mt-5">
-          <button className="bg-primary border-2 border-white p-2 w-full text-white font-bold rounded-3xl active:bg-secondary">
-            Yes
-          </button>
-          <button className="bg-white border-2 border-white p-2 w-full text-primary font-bold rounded-3xl active:bg-secondary">
-            No
-          </button>
+          <div className="relative mb-8">
+            <input
+              type="text"
+              id="birthDate"
+              value={birthDate}
+              onChange={(e) => setBirthDate(e.target.value)}
+              onFocus={() => setIsFocused({ ...isFocused, birthDate: true })}
+              onBlur={() => setIsFocused({ ...isFocused, birthDate: false })}
+              className="bg-primary text-white p-4 rounded-full w-full transition-all duration-300 border-2 border-white shadow-md outline-none placeholder-white/80"
+              placeholder=" "
+            />
+            <label
+              htmlFor="birthDate"
+              className={`absolute left-6 top-4 text-white/80 pointer-events-none transition-all duration-300 ease-in-out bg-primary px-1 ${
+                isFocused.birthDate || birthDate ? "text-xs -top-[9px] left-6 px-1" : ""
+              }`}
+            >
+              မွေးနေ့
+            </label>
+          </div>
         </div>
+
+        <div className="relative mt-[40px]">
+          {/* Dropdown trigger button */}
+          <div
+            className="bg-primary text-white p-4 rounded-full w-full transition-all duration-300 border-2 border-white shadow-md focus:bg-emerald-800 focus:border-emerald-700 focus:shadow-lg outline-none cursor-pointer flex justify-between items-center"
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+          >
+            <span>{selectedOption.label || "ယောက်ကျားလေး / မိန်းကလေး တစ်ခု ရွေးပေးပါ"}</span>
+            <span className="text-white/80">▼</span>
+          </div>
+
+          {/* Dropdown options list */}
+          {isDropdownOpen && (
+            <div className=" w-full mt-2 bg-primary rounded-lg shadow-lg overflow-hidden border border-emerald-800">
+              {options.map((option) => (
+                <div
+                  key={option.value}
+                  className="p-4 cursor-pointer hover:bg-emerald-600 transition-colors duration-200 text-white"
+                  onClick={() => handleOptionClick(option)}
+                >
+                  {option.label}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Dropdown Section */}
+        <div className="p-6 mt-[40px]  rounded-3xl bg-primary border-2 border-white shadow-lg relative">
+          <h3 className="text-white text-lg font-semibold mb-4">ကူးစက်နိုင်သည့်ရောဂါရှိပါသလား</h3>
+
+          <p className="text-white text-sm leading-relaxed mt-4 flex items-start">
+            <span className="text-xl mr-2">i</span>
+            <span>
+              ဤမေးခွန်းသည် ကူညီသူနှင့် ကလေးသူငယ်နှစ်ဦးအတွက် လုံခြုံမှုရှိသော အတွေ့အကြုံကို
+              သေချာစေရန် ရည်ရွယ်ပါတယ်။
+            </span>
+          </p>
+
+          <div className="flex gap-5 mt-5">
+            <button
+              className={`border-2 border-white p-2 w-full font-bold rounded-3xl ${
+                hasInfectiousDisease ? "bg-white text-primary" : "bg-primary text-white"
+              }`}
+              onClick={() => setHasInfectiousDisease(true)}
+            >
+              ရှိပါသည်
+            </button>
+            <button
+              className={`border-2 border-white p-2 w-full font-bold rounded-3xl ${
+                !hasInfectiousDisease ? "bg-white text-primary" : "bg-primary text-white"
+              }`}
+              onClick={() => setHasInfectiousDisease(false)}
+            >
+              မရှိပါ
+            </button>
+          </div>
+        </div>
+      </div>
+      <div className="sticky bottom-0 bg-white h-[100px]  flex items-center gap-5 px-5">
+        {/* <button className="p-5 border-2 border-primary w-full text-primary font-bold rounded-xl active:bg-gray-200">
+          နောက်ပြန်သွားမယ်
+        </button> */}
+        <button
+          onClick={addFormTwo}
+          className="bg-primary p-5 w-full text-white font-bold rounded-xl active:bg-secondary"
+        >
+          ရှေ့ဆက်မယ်
+        </button>
       </div>
     </div>
   );

@@ -24,9 +24,9 @@ function SuccessModal() {
                     cx="25"
                     cy="25"
                     r="20"
-                    stroke="#3DBB47"
+                    stroke="#019177"
                     strokeWidth="1"
-                    fill="#3DBB47"
+                    fill="#019177"
                   />
                   <motion.path
                     d="M14 26l8 8 16-16"
