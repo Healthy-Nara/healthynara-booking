@@ -12,7 +12,7 @@ function App() {
   return (
     <BrowserRouter>
       <Toaster position="top-center" richColors />
-      <div className="">
+      <div className="max-w-2xl mx-auto ">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/term" element={<Term />} />

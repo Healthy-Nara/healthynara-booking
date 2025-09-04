@@ -7,7 +7,7 @@ import { AnimatePresence } from "framer-motion";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <AnimatePresence>
-      <App />
+      <App className="" />
     </AnimatePresence>
   </StrictMode>
 );

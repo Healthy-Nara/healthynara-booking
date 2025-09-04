@@ -129,7 +129,7 @@ const Term = () => {
     },
     {
       id: 5,
-      title: "5.  5. Caregivers ဝန်ဆောင်မှုပေးသူများအား တိုက်ရိုက်တာဝန်ပေးခန့်အပ်ခြင်း",
+      title: "5. Caregivers ဝန်ဆောင်မှုပေးသူများအား တိုက်ရိုက်တာဝန်ပေးခန့်အပ်ခြင်း",
       content: (
         <>
           <ul className="space-y-4 list-disc list-inside">
@@ -154,7 +154,10 @@ const Term = () => {
         <div className="flex items-center justify-between">
           <img src={logo} alt="" className="rounded-2xl" />
 
-          <h1 className="font-bold text-white text-[20px]">စည်းမျဉ်းနှင့် သဘောတူညီချက်များ</h1>
+          <h1 className="font-bold text-right leading-[40px] text-white text-[20px]">
+            စည်းမျဉ်းနှင့် <br />
+            သဘောတူညီချက်များ
+          </h1>
         </div>
 
         <div id="accordion-collapse" data-accordion="collapse" className="mt-[50px]">
@@ -169,7 +172,7 @@ const Term = () => {
                   aria-controls={`accordion-collapse-body-${section.id}`}
                   onClick={() => toggleSection(section.id)}
                 >
-                  <span className="font-bold text-[13px]">{section.title}</span>
+                  <span className="font-bold text-start text-[13px]">{section.title}</span>
                   <svg
                     data-accordion-icon
                     className={` shrink-0 transition-transform duration-200`}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "./../assets/image/Vector.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -14,7 +14,7 @@ const options = [
 const FormOne = () => {
   const navigate = useNavigate();
   const [parentName, setParentName] = useState("");
-  const [id, setId] = useState("");
+  const [loading, setLoading] = useState(false);
   const [isFocused, setIsFocused] = useState({
     parentName: false,
     contactNumber: false,
@@ -39,6 +39,7 @@ const FormOne = () => {
   };
 
   const addFormOne = async () => {
+    setLoading(true);
     const formData = {
       parentName,
       contactNumber,
@@ -48,21 +49,40 @@ const FormOne = () => {
       nearestBusStop,
       durationOfBusStopToHome,
     };
-    console.log(formData);
+    // console.log(formData);
     const res = await axios.post(`${import.meta.env.VITE_API_URL}api/v1/parent`, formData);
     console.log(res.data.data._id);
     if (res.data.code === 201) {
       navigate(`/form-two/${res.data.data._id}`);
     }
+    setLoading(false);
   };
+
+  const [keyboardOpen, setKeyboardOpen] = useState(false);
+
+  useEffect(() => {
+    const onResize = () => {
+      // If the viewport height shrinks by >100px, assume keyboard is open
+      const vh = window.innerHeight;
+      const vvh = window.visualViewport.height;
+      setKeyboardOpen(vh - vvh > 100);
+    };
+
+    window.visualViewport.addEventListener("resize", onResize);
+    return () => {
+      window.visualViewport.removeEventListener("resize", onResize);
+    };
+  }, []);
 
   return (
     <div>
-      <div className="pt-4 px-4 pb-5 mx-auto bg-[#019177]">
+      <div className="pt-4 px-4 pb-[50px] mx-auto bg-primary ">
         <div className="flex items-center justify-between">
           <img src={logo} alt="" className="rounded-2xl" />
 
-          <h1 className="font-bold text-white text-[20px]">အုပ်ထိန်းသူ၏ အချက်အလက်များ</h1>
+          <h1 className="font-bold text-end leading-[40px] text-white text-[20px]">
+            အုပ်ထိန်းသူ၏ <br /> အချက်အလက်များ
+          </h1>
         </div>
 
         <div className="mt-[50px]">
@@ -73,14 +93,14 @@ const FormOne = () => {
               value={parentName}
               onChange={(e) => setParentName(e.target.value)}
               onFocus={() => setIsFocused({ ...isFocused, parentName: true })}
-              onBlur={() => setIsFocused({ ...isFocused, parentName: false })}
+              // onBlur={() => setIsFocused({ ...isFocused, parentName: false })}
               className="bg-primary text-white p-4 rounded-full w-full transition-all duration-300 border-2 border-white shadow-md outline-none placeholder-white/80"
               placeholder=" "
             />
             <label
               htmlFor="parentName"
-              className={`absolute left-6 top-4 text-white/80 pointer-events-none transition-all duration-300 ease-in-out bg-primary px-1 ${
-                isFocused.parentName || parentName ? "text-xs -top-[9px] left-6 px-1" : ""
+              className={`absolute left-6 text-white/80 pointer-events-none transition-all duration-300 ease-in-out bg-primary px-1 ${
+                isFocused.parentName || parentName ? "text-xs -top-[9px] px-1" : "top-4"
               }`}
             >
               အုပ်ထိန်းသူအမည်
@@ -94,14 +114,14 @@ const FormOne = () => {
               value={contactNumber}
               onChange={(e) => setContactNumber(e.target.value)}
               onFocus={() => setIsFocused({ ...isFocused, contactNumber: true })}
-              onBlur={() => setIsFocused({ ...isFocused, contactNumber: false })}
+              // onBlur={() => setIsFocused({ ...isFocused, contactNumber: false })}
               className="bg-primary text-white p-4 rounded-full w-full transition-all duration-300 border-2 border-white shadow-md outline-none placeholder-white/80"
               placeholder=" "
             />
             <label
               htmlFor="contactNumber"
               className={`absolute left-6 top-4 text-white/80 pointer-events-none transition-all duration-300 ease-in-out bg-primary px-1 ${
-                isFocused.contactNumber || contactNumber ? "text-xs -top-[9px] left-6 px-1" : ""
+                isFocused.contactNumber || contactNumber ? "text-xs top-[-8px] left-6 px-1" : ""
               }`}
             >
               ဆက်သွယ်ရန် ဖုန်းနံပါတ်
@@ -121,8 +141,8 @@ const FormOne = () => {
             />
             <label
               htmlFor="address"
-              className={`absolute left-6 top-4 text-white/80 pointer-events-none transition-all duration-300 ease-in-out bg-primary px-1 ${
-                isFocused.address || address ? "text-xs -top-[9px] left-6 px-1" : ""
+              className={`absolute left-6 text-white/80 pointer-events-none transition-all duration-300 ease-in-out bg-primary px-1 ${
+                isFocused.address || address ? "text-xs -top-[9px] px-1" : "top-4"
               }`}
             >
               နေရပ်လိပ်စာ အတိအကျ
@@ -142,8 +162,8 @@ const FormOne = () => {
             />
             <label
               htmlFor="township"
-              className={`absolute left-6 top-4 text-white/80 pointer-events-none transition-all duration-300 ease-in-out bg-primary px-1 ${
-                isFocused.township || township ? "text-xs -top-[9px] left-6 px-1" : ""
+              className={`absolute left-6 text-white/80 pointer-events-none transition-all duration-300 ease-in-out bg-primary px-1 ${
+                isFocused.township || township ? "text-xs -top-[9px] px-1" : "top-4"
               }`}
             >
               နေထိုင်ရာမြို့နယ်
@@ -163,8 +183,8 @@ const FormOne = () => {
             />
             <label
               htmlFor="nearestBusStop"
-              className={`absolute left-6 top-4 text-white/80 pointer-events-none transition-all duration-300 ease-in-out bg-primary px-1 ${
-                isFocused.nearestBusStop || nearestBusStop ? "text-xs -top-[9px] left-6 px-1" : ""
+              className={`absolute left-6 text-white/80 pointer-events-none transition-all duration-300 ease-in-out bg-primary px-1 ${
+                isFocused.nearestBusStop || nearestBusStop ? "text-xs -top-[9px] px-1" : "top-4"
               }`}
             >
               နီးစပ်ရာ ကားမှတ်တိူင်
@@ -212,10 +232,7 @@ const FormOne = () => {
         </div>
       </div>
 
-      <div className="sticky bottom-0 bg-white h-[100px]  flex items-center gap-5 px-5">
-        {/* <button className="p-5 border-2 border-primary w-full text-primary font-bold rounded-xl active:bg-gray-200">
-          Back to Home
-        </button> */}
+      <div className="left-0 right-0 bg-white h-[100px] flex items-center gap-5 px-5 z-50 safe-bottom">
         <button
           onClick={addFormOne}
           className="bg-primary p-5 w-full text-white font-bold rounded-xl active:bg-secondary"

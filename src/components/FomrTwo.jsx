@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import logo from "./../assets/image/Vector.png";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { parse, format } from "date-fns";
 import axios from "axios";
 
 const options = [
@@ -9,6 +10,7 @@ const options = [
 ];
 
 const FormTwo = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [childName, setChildName] = useState("");
   const [birthDate, setBirthDate] = useState("");
@@ -29,10 +31,43 @@ const FormTwo = () => {
     setIsDropdownOpen(false);
   };
 
+  const handleDateChange = (e) => {
+    let value = e.target.value.replace(/\D/g, ""); // only numbers
+
+    if (value.length > 8) value = value.slice(0, 8);
+
+    let day = value.slice(0, 2);
+    let month = value.slice(2, 4);
+    let year = value.slice(4, 8);
+
+    // Restrict invalid days (>31)
+    if (day && parseInt(day, 10) > 31) {
+      day = "31";
+    }
+
+    // Restrict invalid months (>12)
+    if (month && parseInt(month, 10) > 12) {
+      month = "12";
+    }
+
+    let formattedValue = day;
+    if (month) formattedValue += `/${month}`;
+    if (year) formattedValue += `/${year}`;
+
+    setBirthDate(formattedValue);
+  };
+
+  function formatDate(dateStr) {
+    const parsed = parse(dateStr, "dd/MM/yyyy", new Date());
+    return format(parsed, "MM/dd/yyyy");
+  }
+
+  // console.log(formatDate(birthDate));
+
   const addFormTwo = async () => {
     const formData = {
       childName,
-      birthDate,
+      birthDate: formatDate(birthDate),
       gender,
       hasInfectiousDisease,
       parentInfo: id,
@@ -47,15 +82,17 @@ const FormTwo = () => {
 
   return (
     <div>
-      <div className="p-4 h-screen mx-auto bg-[#019177]">
+      <div className="p-4 mx-auto bg-primary pb-[50px]">
         <div className="flex items-center justify-between">
           <img src={logo} alt="" className="rounded-2xl" />
 
-          <h1 className="font-bold text-white text-[20px]">ကလေးငယ်၏ အချက်အလက်များ</h1>
+          <h1 className="font-bold text-end leading-[40px] text-white text-[20px]">
+            ကလေးငယ်၏ <br /> အချက်အလက်များ
+          </h1>
         </div>
 
         <div className="mt-[50px]">
-          <div className="relative mb-8">
+          <div className="relative mb-10">
             <input
               type="text"
               id="childName"
@@ -68,20 +105,20 @@ const FormTwo = () => {
             />
             <label
               htmlFor="childName"
-              className={`absolute left-6 top-4 text-white/80 pointer-events-none transition-all duration-300 ease-in-out bg-primary px-1 ${
-                isFocused.childName || childName ? "text-xs -top-[9px] left-6 px-1" : ""
+              className={`absolute left-6 text-white/80 pointer-events-none transition-all duration-300 ease-in-out bg-primary px-1 ${
+                isFocused.childName || childName ? "text-xs -top-[9px] left-6 px-1" : "top-4"
               }`}
             >
               ကလေးအမည်
             </label>
           </div>
 
-          <div className="relative mb-8">
+          <div className="relative">
             <input
               type="text"
               id="birthDate"
               value={birthDate}
-              onChange={(e) => setBirthDate(e.target.value)}
+              onChange={(e) => handleDateChange(e)}
               onFocus={() => setIsFocused({ ...isFocused, birthDate: true })}
               onBlur={() => setIsFocused({ ...isFocused, birthDate: false })}
               className="bg-primary text-white p-4 rounded-full w-full transition-all duration-300 border-2 border-white shadow-md outline-none placeholder-white/80"
@@ -89,8 +126,8 @@ const FormTwo = () => {
             />
             <label
               htmlFor="birthDate"
-              className={`absolute left-6 top-4 text-white/80 pointer-events-none transition-all duration-300 ease-in-out bg-primary px-1 ${
-                isFocused.birthDate || birthDate ? "text-xs -top-[9px] left-6 px-1" : ""
+              className={`absolute left-6 text-white/80 pointer-events-none transition-all duration-300 ease-in-out bg-primary px-1 ${
+                isFocused.birthDate || birthDate ? "text-xs -top-[9px] left-6 px-1" : "top-4"
               }`}
             >
               မွေးနေ့
@@ -156,10 +193,11 @@ const FormTwo = () => {
           </div>
         </div>
       </div>
-      <div className="sticky bottom-0 bg-white h-[100px]  flex items-center gap-5 px-5">
+
+      <div className="bg-white h-[100px]  flex items-center gap-5 px-5">
         {/* <button className="p-5 border-2 border-primary w-full text-primary font-bold rounded-xl active:bg-gray-200">
-          နောက်ပြန်သွားမယ်
-        </button> */}
+            နောက်ပြန်သွားမယ်
+          </button> */}
         <button
           onClick={addFormTwo}
           className="bg-primary p-5 w-full text-white font-bold rounded-xl active:bg-secondary"
