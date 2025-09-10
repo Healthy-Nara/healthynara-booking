@@ -28,6 +28,7 @@ const FormOne = () => {
   const [township, setTownship] = useState("");
   const [address, setAddress] = useState("");
   const [religion, setReligon] = useState("");
+  const [selectedReligion, setSelectedReligion] = useState("");
   const [nearestBusStop, setNearestBusStop] = useState("");
   const [durationOfBusStopToHome, setDurationOfBusStopToHome] = useState("5min");
 
@@ -35,6 +36,7 @@ const FormOne = () => {
 
   const handleOptionClick = (option) => {
     setReligon(option.value);
+    setSelectedReligion(option.label);
     setIsDropdownOpen(false);
   };
 
@@ -202,7 +204,7 @@ const FormOne = () => {
               className="bg-primary text-white p-4 rounded-full w-full transition-all duration-300 border-2 border-white shadow-md focus:bg-emerald-800 focus:border-emerald-700 focus:shadow-lg outline-none cursor-pointer flex justify-between items-center"
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             >
-              <span>{religion || "Select Religion"}</span>
+              <span>{selectedReligion || "Select Religion"}</span>
               <span className="text-white/80">▼</span>
             </div>
 
