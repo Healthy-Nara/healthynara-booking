@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import logo from "./../assets/image/Vector.png";
 import { useNavigate, useParams } from "react-router-dom";
-import { parse, format } from "date-fns";
 import axios from "axios";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
 
 const options = [
   { label: "ယောက်ကျားလေး", value: "Male" },
@@ -13,13 +16,12 @@ const FormTwo = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [childName, setChildName] = useState("");
-  const [birthDate, setBirthDate] = useState("");
+  const [birthDate, setBirthDate] = useState(null);
   const [gender, setGender] = useState("");
   const [hasInfectiousDisease, setHasInfectiousDisease] = useState(false);
 
   const [isFocused, setIsFocused] = useState({
     childName: false,
-    birthDate: false,
   });
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -31,43 +33,12 @@ const FormTwo = () => {
     setIsDropdownOpen(false);
   };
 
-  const handleDateChange = (e) => {
-    let value = e.target.value.replace(/\D/g, ""); // only numbers
-
-    if (value.length > 8) value = value.slice(0, 8);
-
-    let day = value.slice(0, 2);
-    let month = value.slice(2, 4);
-    let year = value.slice(4, 8);
-
-    // Restrict invalid days (>31)
-    if (day && parseInt(day, 10) > 31) {
-      day = "31";
-    }
-
-    // Restrict invalid months (>12)
-    if (month && parseInt(month, 10) > 12) {
-      month = "12";
-    }
-
-    let formattedValue = day;
-    if (month) formattedValue += `/${month}`;
-    if (year) formattedValue += `/${year}`;
-
-    setBirthDate(formattedValue);
-  };
-
-  function formatDate(dateStr) {
-    const parsed = parse(dateStr, "dd/MM/yyyy", new Date());
-    return format(parsed, "MM/dd/yyyy");
-  }
-
-  // console.log(formatDate(birthDate));
+  // console.log(dayjs(birthDate).format("MM/DD/YYYY"));
 
   const addFormTwo = async () => {
     const formData = {
       childName,
-      birthDate: formatDate(birthDate),
+      birthDate: birthDate ? dayjs(birthDate).format("MM/DD/YYYY") : "",
       gender,
       hasInfectiousDisease,
       parentInfo: id,
@@ -76,7 +47,7 @@ const FormTwo = () => {
     const res = await axios.post(`${import.meta.env.VITE_API_URL}api/v1/child`, formData);
     console.log(res);
     if (res.data.code === 201) {
-      navigate("/success");
+      navigate(`/form-three/${id}/${res.data.data.childPersona._id}`);
     }
   };
 
@@ -105,7 +76,7 @@ const FormTwo = () => {
             />
             <label
               htmlFor="childName"
-              className={`absolute left-6 text-white/80 pointer-events-none transition-all duration-300 ease-in-out bg-primary px-1 ${
+              className={`absolute left-4 text-white/80 pointer-events-none transition-all duration-300 ease-in-out bg-primary px-1 ${
                 isFocused.childName || childName ? "text-xs -top-[9px] left-6 px-1" : "top-4"
               }`}
             >
@@ -114,24 +85,37 @@ const FormTwo = () => {
           </div>
 
           <div className="relative">
-            <input
-              type="text"
-              id="birthDate"
-              value={birthDate}
-              onChange={(e) => handleDateChange(e)}
-              onFocus={() => setIsFocused({ ...isFocused, birthDate: true })}
-              onBlur={() => setIsFocused({ ...isFocused, birthDate: false })}
-              className="bg-primary text-white p-4 rounded-full w-full transition-all duration-300 border-2 border-white shadow-md outline-none placeholder-white/80"
-              placeholder=" "
-            />
-            <label
-              htmlFor="birthDate"
-              className={`absolute left-6 text-white/80 pointer-events-none transition-all duration-300 ease-in-out bg-primary px-1 ${
-                isFocused.birthDate || birthDate ? "text-xs -top-[9px] left-6 px-1" : "top-4"
-              }`}
-            >
-              မွေးနေ့
-            </label>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                value={birthDate}
+                onChange={(val) => setBirthDate(val)}
+                disableFuture
+                format="DD/MM/YYYY"
+                slotProps={{
+                  textField: {
+                    label: "",
+                    placeholder: "မွေးနေ့",
+                    InputLabelProps: { shrink: true },
+                    fullWidth: true,
+                    sx: {
+                      "& .MuiInputBase-root": {
+                        backgroundColor: "transparent",
+                        color: "#fff",
+                        borderRadius: 9999,
+                        border: "2px solid white",
+                        paddingRight: 1,
+                      },
+                      "& .MuiInputLabel-root": { color: "#fff" },
+                      "& .MuiInputLabel-root.Mui-focused": { color: "#fff" },
+                      "& .MuiOutlinedInput-notchedOutline": { border: "none" },
+                      "& .MuiSvgIcon-root": { color: "#fff" },
+                      input: { padding: "18px 18px" },
+                      "& input::placeholder": { color: "#fff", opacity: 0.7 },
+                    },
+                  },
+                }}
+              />
+            </LocalizationProvider>
           </div>
         </div>
 
@@ -141,7 +125,7 @@ const FormTwo = () => {
             className="bg-primary text-white p-4 rounded-full w-full transition-all duration-300 border-2 border-white shadow-md focus:bg-emerald-800 focus:border-emerald-700 focus:shadow-lg outline-none cursor-pointer flex justify-between items-center"
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
           >
-            <span>{selectedOption.label || "ယောက်ကျားလေး / မိန်းကလေး တစ်ခု ရွေးပေးပါ"}</span>
+            <span>{selectedOption.label || "ယောက်ကျားလေး / မိန်းကလေး ရွေးပေးပါ"}</span>
             <span className="text-white/80">▼</span>
           </div>
 
