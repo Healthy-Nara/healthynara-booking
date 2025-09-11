@@ -7,7 +7,7 @@ const options = [
   { label: "ဗုဒ္ဓဘာသာ", value: "Buddhist" },
   { label: "ခရစ်ယာန်", value: "Christian" },
   { label: "ဟိန္ဒူ", value: "Hindu" },
-  { label: "Islam", value: "Islam" },
+  { label: "အစ္စလာမ်", value: "Islam" },
   { label: "Other", value: "Other" },
 ];
 
@@ -78,7 +78,7 @@ const FormOne = () => {
     };
     // console.log(formData);
     const res = await axios.post(`${import.meta.env.VITE_API_URL}api/v1/parent`, formData);
-    console.log(res);
+    // console.log(res);
     if (res.data.code === 201) {
       navigate(`/form-two/${res.data.data._id}`);
     }

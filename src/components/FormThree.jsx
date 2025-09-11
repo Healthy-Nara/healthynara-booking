@@ -14,8 +14,8 @@ const durationOptions = [
 ];
 
 const shiftOptions = [
-  { label: "နေ့", value: "day" },
-  { label: "ည", value: "night" },
+  { label: "နေ့ဂျူတီ", value: "day" },
+  { label: "ညဂျူတီ", value: "night" },
   { label: "နှစ်ချိန်လုံး", value: "both" },
 ];
 
@@ -73,7 +73,7 @@ const FormThree = () => {
 
         <div className="mt-[30px] space-y-6">
           <div className="p-4 rounded-3xl bg-primary border-2 border-white">
-            <p className="text-white mb-5">ဝန်ထမ်း၏ကာလအမျိုးအစား ရွေးပါ</p>
+            <p className="text-white mb-5">ဂျုတီယူမည့် ကာလအပိုင်းအခြား ရွေးပေးပါ</p>
             <div className="grid grid-cols-3 gap-3">
               {durationOptions.map((opt) => (
                 <button
@@ -90,7 +90,7 @@ const FormThree = () => {
           </div>
 
           <div className="p-4 rounded-3xl bg-primary border-2 border-white">
-            <p className="text-white mb-5">ဝန်ထမ်း၏ အလုပ်ချိန် အမျိုးအစား ရွေးပါ</p>
+            <p className="text-white mb-5">ဂျုတီယူမည့် အချိန်အပိုင်းအခြား ရွေးပေးပါ</p>
             <div className="grid grid-cols-2 gap-3">
               {shiftOptions.map((opt) => (
                 <button
@@ -107,7 +107,7 @@ const FormThree = () => {
           </div>
 
           <div className="p-4 rounded-3xl bg-primary border-2 border-white">
-            <p className="text-white mb-5">ဝန်ဆောင်မှု စတင်မည့် ရက်ရွေးပါ</p>
+            <p className="text-white mb-5">ဂျုတီစယူလို့တဲ့ ရက်ကိုရွေးပေးပါ</p>
             <div className="relative">
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
@@ -148,12 +148,12 @@ const FormThree = () => {
           </div>
 
           <div className="p-4 rounded-3xl bg-primary border-2 border-white">
-            <p className="text-white mb-5">ဆောင်ရွက်ရန်အချက်အလက်များ</p>
+            <p className="text-white mb-5">စောင့်ရှောက်သူအား မှာကြားလိုတဲ့ အချက်များ</p>
             <input
               type="text"
               value={additionalNotes}
               onChange={(e) => setAdditionalNotes(e.target.value)}
-              placeholder="မှတ်ချက်များ ဖြည့်ပါ"
+              placeholder="မှာကြားလိူသည့်အချက်များရှိပါက ရေးပေးပါ"
               className="bg-primary text-white p-4 rounded-full w-full transition-all duration-300 border-2 border-white shadow-md outline-none placeholder-white/80"
             />
           </div>
