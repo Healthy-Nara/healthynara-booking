@@ -26,16 +26,32 @@ const FormTwo = () => {
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
+  const [errors, setErrors] = useState({});
+  const [attemptedSubmit, setAttemptedSubmit] = useState(false);
 
   const handleOptionClick = (option) => {
     setSelectedOption(option);
     setGender(option.value);
+    if (attemptedSubmit)
+      setErrors((prev) => {
+        const { gender: _g, ...rest } = prev;
+        return rest;
+      });
     setIsDropdownOpen(false);
   };
 
   // console.log(dayjs(birthDate).format("MM/DD/YYYY"));
 
   const addFormTwo = async () => {
+    setAttemptedSubmit(true);
+    const newErrors = {};
+    if (!childName.trim()) newErrors.childName = "ဖြည့်ပေးပါ";
+    if (!birthDate) newErrors.birthDate = "ရွေးပေးပါ";
+    if (!gender) newErrors.gender = "ရွေးပေးပါ";
+    if (Object.keys(newErrors).length) {
+      setErrors(newErrors);
+      return;
+    }
     const formData = {
       childName,
       birthDate: birthDate ? dayjs(birthDate).format("MM/DD/YYYY") : "",
@@ -68,10 +84,19 @@ const FormTwo = () => {
               type="text"
               id="childName"
               value={childName}
-              onChange={(e) => setChildName(e.target.value)}
+              onChange={(e) => {
+                setChildName(e.target.value);
+                if (attemptedSubmit)
+                  setErrors((prev) => {
+                    const { childName: _c, ...rest } = prev;
+                    return rest;
+                  });
+              }}
               onFocus={() => setIsFocused({ ...isFocused, childName: true })}
               onBlur={() => setIsFocused({ ...isFocused, childName: false })}
-              className="bg-primary text-white p-4 rounded-full w-full transition-all duration-300 border-2 border-white shadow-md outline-none placeholder-white/80"
+              className={`bg-primary text-white p-4 rounded-full w-full transition-all duration-300 border-2 ${
+                errors.childName ? "border-red-400" : "border-white"
+              } shadow-md outline-none placeholder-white/80`}
               placeholder=" "
             />
             <label
@@ -82,13 +107,23 @@ const FormTwo = () => {
             >
               ကလေးအမည်
             </label>
+            {errors.childName && (
+              <p className="text-red-200 text-sm mt-2 px-2">{errors.childName}</p>
+            )}
           </div>
 
           <div className="relative">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
                 value={birthDate}
-                onChange={(val) => setBirthDate(val)}
+                onChange={(val) => {
+                  setBirthDate(val);
+                  if (attemptedSubmit)
+                    setErrors((prev) => {
+                      const { birthDate: _b, ...rest } = prev;
+                      return rest;
+                    });
+                }}
                 disableFuture
                 format="DD/MM/YYYY"
                 slotProps={{
@@ -102,7 +137,7 @@ const FormTwo = () => {
                         backgroundColor: "transparent",
                         color: "#fff",
                         borderRadius: 9999,
-                        border: "2px solid white",
+                        border: `2px solid ${errors.birthDate ? "#f87171" : "white"}`,
                         paddingRight: 1,
                       },
                       "& .MuiInputLabel-root": { color: "#fff" },
@@ -116,13 +151,18 @@ const FormTwo = () => {
                 }}
               />
             </LocalizationProvider>
+            {errors.birthDate && (
+              <p className="text-red-200 text-sm mt-2 px-2">{errors.birthDate}</p>
+            )}
           </div>
         </div>
 
         <div className="relative mt-[40px]">
           {/* Dropdown trigger button */}
           <div
-            className="bg-primary text-white p-4 rounded-full w-full transition-all duration-300 border-2 border-white shadow-md focus:bg-emerald-800 focus:border-emerald-700 focus:shadow-lg outline-none cursor-pointer flex justify-between items-center"
+            className={`bg-primary text-white p-4 rounded-full w-full transition-all duration-300 border-2 ${
+              errors.gender ? "border-red-400" : "border-white"
+            } shadow-md focus:bg-emerald-800 focus:border-emerald-700 focus:shadow-lg outline-none cursor-pointer flex justify-between items-center`}
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
           >
             <span>{selectedOption.label || "ယောက်ကျားလေး / မိန်းကလေး ရွေးပေးပါ"}</span>
@@ -143,6 +183,7 @@ const FormTwo = () => {
               ))}
             </div>
           )}
+          {errors.gender && <p className="text-red-200 text-sm mt-2 px-2">{errors.gender}</p>}
         </div>
 
         {/* Dropdown Section */}

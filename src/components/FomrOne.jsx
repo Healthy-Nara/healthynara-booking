@@ -15,6 +15,8 @@ const FormOne = () => {
   const navigate = useNavigate();
   const [parentName, setParentName] = useState("");
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [attemptedSubmit, setAttemptedSubmit] = useState(false);
   const [isFocused, setIsFocused] = useState({
     parentName: false,
     contactNumber: false,
@@ -40,7 +42,30 @@ const FormOne = () => {
     setIsDropdownOpen(false);
   };
 
+  const clearError = (field) => {
+    setErrors((prev) => {
+      const { [field]: _removed, ...rest } = prev;
+      return rest;
+    });
+  };
+
+  const validate = () => {
+    const newErrors = {};
+    if (!parentName.trim()) newErrors.parentName = "ဖြည့်ပေးပါ";
+    if (!contactNumber.trim()) newErrors.contactNumber = "ဖြည့်ပေးပါ";
+    if (!address.trim()) newErrors.address = "ဖြည့်ပေးပါ";
+    if (!township.trim()) newErrors.township = "ဖြည့်ပေးပါ";
+    if (!nearestBusStop.trim()) newErrors.nearestBusStop = "ဖြည့်ပေးပါ";
+    return newErrors;
+  };
+
   const addFormOne = async () => {
+    setAttemptedSubmit(true);
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
     setLoading(true);
     const formData = {
       parentName,
@@ -53,7 +78,7 @@ const FormOne = () => {
     };
     // console.log(formData);
     const res = await axios.post(`${import.meta.env.VITE_API_URL}api/v1/parent`, formData);
-    console.log(res.data.data._id);
+    console.log(res);
     if (res.data.code === 201) {
       navigate(`/form-two/${res.data.data._id}`);
     }
@@ -93,10 +118,15 @@ const FormOne = () => {
               type="text"
               id="parentName"
               value={parentName}
-              onChange={(e) => setParentName(e.target.value)}
+              onChange={(e) => {
+                setParentName(e.target.value);
+                if (attemptedSubmit) clearError("parentName");
+              }}
               onFocus={() => setIsFocused({ ...isFocused, parentName: true })}
               // onBlur={() => setIsFocused({ ...isFocused, parentName: false })}
-              className="bg-primary text-white p-4 rounded-full w-full transition-all duration-300 border-2 border-white shadow-md outline-none placeholder-white/80"
+              className={`bg-primary text-white p-4 rounded-full w-full transition-all duration-300 border-2 ${
+                errors.parentName ? "border-red-400" : "border-white"
+              } shadow-md outline-none placeholder-white/80`}
               placeholder=" "
             />
             <label
@@ -107,6 +137,9 @@ const FormOne = () => {
             >
               အုပ်ထိန်းသူအမည်
             </label>
+            {errors.parentName && (
+              <p className="text-red-200 text-sm mt-2 px-2">{errors.parentName}</p>
+            )}
           </div>
 
           <div className="relative mb-8">
@@ -114,10 +147,15 @@ const FormOne = () => {
               type="text"
               id="contactNumber"
               value={contactNumber}
-              onChange={(e) => setContactNumber(e.target.value)}
+              onChange={(e) => {
+                setContactNumber(e.target.value);
+                if (attemptedSubmit) clearError("contactNumber");
+              }}
               onFocus={() => setIsFocused({ ...isFocused, contactNumber: true })}
               // onBlur={() => setIsFocused({ ...isFocused, contactNumber: false })}
-              className="bg-primary text-white p-4 rounded-full w-full transition-all duration-300 border-2 border-white shadow-md outline-none placeholder-white/80"
+              className={`bg-primary text-white p-4 rounded-full w-full transition-all duration-300 border-2 ${
+                errors.contactNumber ? "border-red-400" : "border-white"
+              } shadow-md outline-none placeholder-white/80`}
               placeholder=" "
             />
             <label
@@ -128,6 +166,9 @@ const FormOne = () => {
             >
               ဆက်သွယ်ရန် ဖုန်းနံပါတ်
             </label>
+            {errors.contactNumber && (
+              <p className="text-red-200 text-sm mt-2 px-2">{errors.contactNumber}</p>
+            )}
           </div>
 
           <div className="relative mb-8">
@@ -135,10 +176,15 @@ const FormOne = () => {
               type="text"
               id="address"
               value={address}
-              onChange={(e) => setAddress(e.target.value)}
+              onChange={(e) => {
+                setAddress(e.target.value);
+                if (attemptedSubmit) clearError("address");
+              }}
               onFocus={() => setIsFocused({ ...isFocused, address: true })}
               onBlur={() => setIsFocused({ ...isFocused, address: false })}
-              className="bg-primary text-white p-4 rounded-full w-full transition-all duration-300 border-2 border-white shadow-md outline-none placeholder-white/80"
+              className={`bg-primary text-white p-4 rounded-full w-full transition-all duration-300 border-2 ${
+                errors.address ? "border-red-400" : "border-white"
+              } shadow-md outline-none placeholder-white/80`}
               placeholder=" "
             />
             <label
@@ -149,6 +195,7 @@ const FormOne = () => {
             >
               နေရပ်လိပ်စာ အတိအကျ
             </label>
+            {errors.address && <p className="text-red-200 text-sm mt-2 px-2">{errors.address}</p>}
           </div>
 
           <div className="relative mb-8">
@@ -156,10 +203,15 @@ const FormOne = () => {
               type="text"
               id="township"
               value={township}
-              onChange={(e) => setTownship(e.target.value)}
+              onChange={(e) => {
+                setTownship(e.target.value);
+                if (attemptedSubmit) clearError("township");
+              }}
               onFocus={() => setIsFocused({ ...isFocused, township: true })}
               onBlur={() => setIsFocused({ ...isFocused, township: false })}
-              className="bg-primary text-white p-4 rounded-full w-full transition-all duration-300 border-2 border-white shadow-md outline-none placeholder-white/80"
+              className={`bg-primary text-white p-4 rounded-full w-full transition-all duration-300 border-2 ${
+                errors.township ? "border-red-400" : "border-white"
+              } shadow-md outline-none placeholder-white/80`}
               placeholder=" "
             />
             <label
@@ -170,6 +222,7 @@ const FormOne = () => {
             >
               နေထိုင်ရာမြို့နယ်
             </label>
+            {errors.township && <p className="text-red-200 text-sm mt-2 px-2">{errors.township}</p>}
           </div>
 
           <div className="relative mb-8">
@@ -177,10 +230,15 @@ const FormOne = () => {
               type="text"
               id="nearestBusStop"
               value={nearestBusStop}
-              onChange={(e) => setNearestBusStop(e.target.value)}
+              onChange={(e) => {
+                setNearestBusStop(e.target.value);
+                if (attemptedSubmit) clearError("nearestBusStop");
+              }}
               onFocus={() => setIsFocused({ ...isFocused, nearestBusStop: true })}
               onBlur={() => setIsFocused({ ...isFocused, nearestBusStop: false })}
-              className="bg-primary text-white p-4 rounded-full w-full transition-all duration-300 border-2 border-white shadow-md outline-none placeholder-white/80"
+              className={`bg-primary text-white p-4 rounded-full w-full transition-all duration-300 border-2 ${
+                errors.nearestBusStop ? "border-red-400" : "border-white"
+              } shadow-md outline-none placeholder-white/80`}
               placeholder=" "
             />
             <label
@@ -191,6 +249,9 @@ const FormOne = () => {
             >
               နီးစပ်ရာ ကားမှတ်တိူင်
             </label>
+            {errors.nearestBusStop && (
+              <p className="text-red-200 text-sm mt-2 px-2">{errors.nearestBusStop}</p>
+            )}
           </div>
         </div>
 
@@ -237,7 +298,8 @@ const FormOne = () => {
       <div className="left-0 right-0 bg-white h-[100px] flex items-center gap-5 px-5 z-50 safe-bottom">
         <button
           onClick={addFormOne}
-          className="bg-primary p-5 w-full text-white font-bold rounded-xl active:bg-secondary"
+          disabled={loading}
+          className="bg-primary p-5 w-full text-white font-bold rounded-xl active:bg-secondary disabled:opacity-70"
         >
           ရှေ့ဆက်မယ်
         </button>

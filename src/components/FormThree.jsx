@@ -28,9 +28,17 @@ const FormThree = () => {
   const [dutyStartingtime, setDutyStartingtime] = useState(null);
   const [additionalNotes, setAdditionalNotes] = useState("");
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [attemptedSubmit, setAttemptedSubmit] = useState(false);
 
   const handleSubmit = async () => {
-    if (!dutyStartingtime) return;
+    setAttemptedSubmit(true);
+    const newErrors = {};
+    if (!dutyStartingtime) newErrors.dutyStartingtime = "ရွေးပေးပါ";
+    if (Object.keys(newErrors).length) {
+      setErrors(newErrors);
+      return;
+    }
     setLoading(true);
     const payload = {
       parentInfo: parentId,
@@ -104,7 +112,14 @@ const FormThree = () => {
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   value={dutyStartingtime}
-                  onChange={(val) => setDutyStartingtime(val)}
+                  onChange={(val) => {
+                    setDutyStartingtime(val);
+                    if (attemptedSubmit)
+                      setErrors((prev) => {
+                        const { dutyStartingtime: _d, ...rest } = prev;
+                        return rest;
+                      });
+                  }}
                   disablePast
                   format="DD-MM-YYYY"
                   slotProps={{
@@ -115,7 +130,7 @@ const FormThree = () => {
                           backgroundColor: "transparent",
                           color: "#fff",
                           borderRadius: 9999,
-                          border: "2px solid white",
+                          border: `2px solid ${errors.dutyStartingtime ? "#f87171" : "white"}`,
                           paddingRight: 1,
                         },
                         "& .MuiOutlinedInput-notchedOutline": { border: "none" },
@@ -126,6 +141,9 @@ const FormThree = () => {
                   }}
                 />
               </LocalizationProvider>
+              {errors.dutyStartingtime && (
+                <p className="text-red-200 text-sm mt-2 px-2">{errors.dutyStartingtime}</p>
+              )}
             </div>
           </div>
 
