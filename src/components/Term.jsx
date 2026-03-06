@@ -66,7 +66,7 @@ const Term = () => {
     },
     {
       id: 3,
-      title: "၃။ ငွေပေးချေမှုနှင့်ပတ်သက်သည့် စည်းမျဉ်းများ",
+      title: "3. ငွေပေးချေမှုနှင့်ပတ်သက်သည့် စည်းမျဉ်းများ",
       content: (
         <>
           <div className="space-y-4 text-white text-[14px]">
@@ -88,7 +88,7 @@ const Term = () => {
     },
     {
       id: 4,
-      title: "၄။ Duty ချိန်နှင့်ပတ်သက်သည့်စည်းမျဉ်းများ",
+      title: "4. Duty ချိန်နှင့်ပတ်သက်သည့်စည်းမျဉ်းများ",
       content: (
         <>
           <div className="space-y-4 text-white text-[14px]">
