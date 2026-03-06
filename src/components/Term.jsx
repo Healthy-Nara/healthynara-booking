@@ -46,26 +46,68 @@ const Term = () => {
         <>
           <ul className="space-y-4 list-disc list-inside">
             <li className="text-white text-[14px]">
-              နေ့စဉ်၊ အပတ်စဉ်၊ လစဉ် လုပ်ငန်းတာဝန်များအတွက် ငွေတောင်းခံလွှာများ ထုတ်ပေးမည်ဖြစ်ပြီး
-              ငွေပေးချေမှုကို ပလက်ဖောင်း၏ ငွေပေးချေမှုစနစ်မှတစ်ဆင့် ပေးချေရမည်ဖြစ်ပါသည်။
+              နေ့စဉ်၊ အပတ်စဉ်၊ လစဉ် လုပ်ငန်းတာဝန်များအတွက် ငွေတောင်းခံလွှာများ ထုတ်ပေးမည်ဖြစ်ပြီး ငွေပေးချေမှုကို ပလက်ဖောင်း၏ ငွေပေးချေမှုစနစ်မှတစ်ဆင့် ပေးချေရမည်ဖြစ်ပါသည်။
             </li>
             <li className="text-white text-[14px]">
-              ငွေပေးချေမှုကို Caregiver ဝန်ဆောင်မှုပေးသူများထံ တိုက်ရိုက်ပေးချေခြင်းပြုလုပ်၍မရပါ။
-              ထိုသို့ တိုက်ရိုက်ပေးချေခြင်းပြုလုပ်ပါက ဝန်ဆောင်မှုအတွက် မလိုလားအပ်သည့်
-              အနှောင့်အယှက်များ ဖြစ်ပေါ်လာနိုင်ပါသည်။
+              ငွေပေးချေမှုများကို Platform ကိုသာ <span className="text-red-300 font-bold">တိုက်ရိုက် ပေးချေရမည်ဖြစ်ပြီး</span> Caregiver များမှတစ်ဆင့် ငွေပေးချေခြင်းအပြင် အခြားငွေကြေးနဲ့ပတ်သက်သည့် ကိစ္စရပ်များ မပြုလုပ်ရပါ။
             </li>
             <li className="text-white text-[14px]">
-              ငွေပေးချေမှုပြုလုပ်ရာတွင် Caregiver Service Fees ၏ <br /> Daily Package - 10% <br />{" "}
-              Weekly Package - 7% <br /> Monthly Package -5% <br /> နှုန်းထားများဖြင့် Platform Fees
-              ကို Service အသုံးပြုသူများထံမှ ကောက်ခံသွားမည်ဖြစ်ပါသည်။
+              ထိုကဲ့သို့ ငွေကြေးနှင့်ဆိုင်သည့်ကိစ္စရပ်များကို Platform ဘက်အားအကြောင်းကြားခြင်းမရှိဘဲ ပြုလုပ်ခဲ့ပါက အကြောင်းတစ်ခုခုဖြစ်လာခဲ့သည်ရှိသော် Service သုံးစွဲသူများ၏ တာဝန်ဖြစ်ပါသည်။
             </li>
+            <ul className="text-white text-[14px] space-y-2 list-disc list-inside">ငွေပေးချေမှုပြုလုပ်ရာတွင် Caregiver Service Fees ၏
+              <li className="text-white text-[14px]">Daily Package - 10%</li>
+              <li className="text-white text-[14px]">Weekly Package - 7%</li>
+              <li className="text-white text-[14px]">Monthly Package -5%</li>
+              နှုန်းထားများဖြင့်  Platform Fees ကို Service အသုံးပြုသူများထံမှ ကောက်ခံသွားမည်ဖြစ်ပါသည်။
+            </ul>
           </ul>
         </>
       ),
     },
     {
       id: 3,
-      title: " 3. Caregiver ဝန်ဆောင်မှုပေးသူအား စစ်ဆေးခြင်းနှင့် အရည်အချင်း",
+      title: "၃။ ငွေပေးချေမှုနှင့်ပတ်သက်သည့် စည်းမျဉ်းများ",
+      content: (
+        <>
+          <div className="space-y-4 text-white text-[14px]">
+            <p className="font-bold">Healthy Nara ဘက်မှ</p>
+            <li className="text-white text-[14px]">Daily Invoice များကို Service သုံးစွဲသည့်နေ့ရဲ့ Day Duty ဖြစ်ပါက နေ့လည် ၁ နာရီမတိုင်ခင်၊ Night Duty ဖြစ်ပါက ည ၈ နာရီမတိုင်ခင် ပို့ဆောင်ပေးမှာဖြစ်ပြီး</li>
+            <li className="text-white text-[14px]">Weekly နှင့် Monthly Invoice များကိုတော့ Service သက်တမ်းကုန်ဆုံးမည့်ရက်ထက် တစ်ရက်ကြိုပြီး ပို့ဆောင်ပေးသွားမှာဖြစ်ပါသည်။</li>
+            <li className="text-white text-[14px]">Service သုံးစွဲသူများမှလည်း Invoice ထဲတွင်ပါရှိသော <span className="text-red-300 font-bold">Due Date အတွင်း</span> Payment များကိုအချိန်မီပေးဆောင်ရန် လိုအပ်ပါသည်။</li>
+            <li className="text-white text-[14px]"><span className="text-red-300 font-bold">Due Date ထက်နောက်ကျသော</span> Payment များအတွက်ကိုမူ နောက်ကျသောရက်အလိုက် <span className="text-red-300 font-bold">၂၄ နာရီလျှင် ၅,၀၀၀ ကျပ်စီ </span>ထပ်တိုးကောက်ခံသွားမည်ဖြစ်ပါသည်။ (ဥပမာအားဖြင့် ၂၄ နာရီ - ၅,၀၀၀ ကျပ်၊ ၄၈ နာရီ - ၁၀,၀၀၀ ကျပ်)</li>
+            <li className="text-white text-[14px]">Weekly Package နှင့် Monthly Package များတွင် Assigned Caregiver မှာ Emergency Case ဖြစ်၍သော်လည်းကောင်း၊ Service သုံးစွဲသူဘက်မှ Caregiver အသစ်ပြောင်းလျှင်သော်လည်းကောင်း၊ အကြောင်းအမျိုးမျိုးကြောင့် Duty ဆက်မဝင်နိုင်ပါကထို Caregiver ဆင်းထားသောရက်အလိုက် ကျသင့်ငွေကို တစ်ခါတည်းပေးဆောင်ရမည်ဖြစ်ပါသည်။</li>
+            <li className="text-white text-[14px]">Package ၌ကျန်ရှိသောရက်များအတွက်ကို Service သုံးစွဲသူဆက်လက်ခေါ်ယူလိုပါက Healthy Nara ဘက်မှ အစားထိုး Caregiver တစ်ယောက် စီစဉ်ပေးမည်ဖြစ်ပါသည်။</li>
+            <div className="mt-4 pt-4 border-t border-white/20">
+              <p className="font-bold underline mb-2">Disclaimer:</p>
+              <li className="text-white text-[14px]">Service သုံးစွဲသူမှ Healthy Nara Platform မှတစ်ဆင့်မဟုတ်ဘဲ Caregiver ဝန်ဆောင်မှု ပေးသူများအား <span className="text-red-300 font-bold">တိုက်ရိုက်တာဝန်ပေးခန့်အပ်ပါက</span> ၎င်းတို့၏ အရည်အသွေးများ၊ နောက်ကြောင်း ရာဇဝင်များကို ကိုယ်တိုင်စစ်ဆေးရမည်ဖြစ်ပါသည်</li>
+              <li className="text-white text-[14px]">ယင်းကဲ့သို့ Platform အားအကြောင်းကြားခြင်းမရှိဘဲ တိုက်ရိုက်တာဝန်ပေးခန့်အပ်ခြင်းကြောင့် ဖြစ်ပေါ်လာနိုင်သည့် နောက်ဆက်တွဲ ပြဿနာများအတွက် Platform မှ                                          <span className="text-red-300 font-bold">တာဝန်ယူမည်မဟုတ်ပါ။</span></li>
+            </div>
+          </div>
+        </>
+      ),
+    },
+    {
+      id: 4,
+      title: "၄။ Duty ချိန်နှင့်ပတ်သက်သည့်စည်းမျဉ်းများ",
+      content: (
+        <>
+          <div className="space-y-4 text-white text-[14px]">
+            <li className="text-white text-[14px]">Duty Time များမှာ
+              <ul className="space-y-1 list-disc list-inside ml-4">
+                <li>Day Duty - မနက် 7 နာရီခွဲ မှ ညနေ 5 နာရီခွဲ</li>
+                <li>Night Duty - ည 7 နာရီမှ မနက် 7 နာရီ။</li>
+              </ul>
+              ဖြစ်ပါသည်
+            </li>
+            <li className="text-white text-[14px]">ထို Duty Time များအပြင် Service သုံးစွဲသူဘက်မှ အကြောင်းအမျိုးမျိုးကြောင့် အပိုဆောင်းအချိန်များ ဆက်၍ခေါ်ယူလိုပါက Healthy Nara Platform ကို အကြောင်းကြားကာ Hourly Rate ဖြင့် ထပ်မံခေါ်ယူနိုင်ပါသည်။</li>
+            <li className="text-white text-[14px]">Caregiver များအနေဖြင့် Assign ဆင်းရသည့်အချိန်များမှာ <span className="text-red-300 font-bold">Duty Time များမှ ပြင်ပနာရီဝက်ကျော်ခဲ့ </span> ပါကလည်း (ဥပမာအားဖြင့် - 6 နာရီ Duty Out ရမည်ကို 6 နာရီခွဲထိဆင်းရခြင်း) ထိုအချိန်အတွက် <span className="text-red-300 font-bold">Extra Fees </span> ကို Service သုံးစွဲသူများမှ ပေးဆောင်ရမည်ဖြစ်ပါသည်။</li>
+          </div>
+        </>
+      ),
+    },
+    {
+      id: 5,
+      title: "5. Caregiver ဝန်ဆောင်မှုပေးသူအား စစ်ဆေးခြင်းနှင့် အရည်အချင်း",
       content: (
         <>
           <ul className="space-y-4 list-disc list-inside">
@@ -82,8 +124,8 @@ const Term = () => {
       ),
     },
     {
-      id: 4,
-      title: "4. Service Booking ပယ်ဖျက်ခြင်းနှင့်ပြန်အမ်း‌ငွေ မူဝါဒ",
+      id: 6,
+      title: "6. Service Booking ပယ်ဖျက်ခြင်းနှင့်ပြန်အမ်း‌ငွေ မူဝါဒ",
       content: (
         <>
           <ul className="space-y-2 list-disc list-inside">
@@ -128,8 +170,8 @@ const Term = () => {
       ),
     },
     {
-      id: 5,
-      title: "5. Caregivers ဝန်ဆောင်မှုပေးသူများအား တိုက်ရိုက်တာဝန်ပေးခန့်အပ်ခြင်း",
+      id: 7,
+      title: "7. Caregivers ဝန်ဆောင်မှုပေးသူများအား တိုက်ရိုက်တာဝန်ပေးခန့်အပ်ခြင်း",
       content: (
         <>
           <ul className="space-y-4 list-disc list-inside">
@@ -149,7 +191,7 @@ const Term = () => {
   ];
 
   return (
-    <div>
+    <div className="overflow-y-hidden">
       <div className="p-4 max-w-2xl mx-auto bg-[#019177]">
         <div className="flex items-center justify-between">
           <img src={logo} alt="" className="rounded-2xl" />
@@ -163,7 +205,7 @@ const Term = () => {
         <div
           id="accordion-collapse"
           data-accordion="collapse"
-          className="mt-[50px] overflow-y-auto h-[500px]"
+          className="mt-[50px] overflow-y-auto h-[calc(100vh-270px)]"
         >
           {sections.map((section, index) => (
             <React.Fragment key={section.id}>
@@ -199,9 +241,8 @@ const Term = () => {
                 aria-labelledby={`accordion-collapse-heading-${section.id}`}
               >
                 <div
-                  className={`p-5  border border-gray-200 dark:border-gray-700 leading-8 ${
-                    index > 0 ? "border-t-0" : "border-t-0 border-b-0"
-                  } ${index === sections.length - 1 ? "" : "border-b-0"}`}
+                  className={`p-5  border border-gray-200 dark:border-gray-700 leading-8 ${index > 0 ? "border-t-0" : "border-t-0 border-b-0"
+                    } ${index === sections.length - 1 ? "" : "border-b-0"}`}
                 >
                   {section.content}
                 </div>

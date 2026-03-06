@@ -5,8 +5,8 @@ import logo from "./../assets/image/Vector.png";
 function HomePage() {
   const navigate = useNavigate();
   return (
-    <div className="flex justify-center items-center h-[100vh] bg-background md:w-[500px] mx-auto py-1 px-[24px] ">
-      <div className="flex flex-col justify-center items-center mt-40">
+    <div className="flex justify-center items-center h-screen bg-background md:w-[500px] mx-auto py-1 px-[24px] ">
+      <div className="flex flex-col justify-end h-[80vh] items-center">
         <div className="mb-10">
           <img src={logo} alt="" className="w-[100px] h-[100px] rounded-2xl" />
         </div>
